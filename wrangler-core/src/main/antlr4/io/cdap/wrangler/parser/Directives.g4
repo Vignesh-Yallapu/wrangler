@@ -64,6 +64,8 @@ directive
     | stringList
     | numberRanges
     | properties
+    | byteSize      
+    | timeDuration
   )*?
   ;
 
@@ -195,6 +197,14 @@ identifierList
  : Identifier (',' Identifier)*
  ;
 
+byteSize
+  : BYTE_SIZE
+  ;
+
+timeDuration
+  : TIME_DURATION
+  ;
+
 
 /*
  * Following are the Lexer Rules used for tokenizing the recipe.
@@ -280,6 +290,14 @@ EscapeSequence
    |   OctalEscape
    ;
 
+BYTE_SIZE
+    : [0-9]+ ('.' [0-9]+)? BYTE_UNIT
+    ;
+
+TIME_DURATION
+    : [0-9]+ ('.' [0-9]+)? TIME_UNIT
+    ;
+
 fragment
 OctalEscape
    :   '\\' ('0'..'3') ('0'..'7') ('0'..'7')
@@ -311,3 +329,10 @@ fragment Int
 fragment Digit
  : [0-9]
  ;
+
+fragment BYTE_UNIT
+  : ('B'|'KB'|'MB'|'GB'|'TB') [Ii]?
+  ;
+fragment TIME_UNIT
+  : ('ms'|'s'|'m'|'h'|'d') [Ii]?
+  ;
